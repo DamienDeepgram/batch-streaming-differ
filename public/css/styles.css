@@ -82,13 +82,13 @@ textarea {
 
 .dropzone {
   border: 0.2rem dashed #1e2c3c;
-  padding: 2rem;
+  padding: 8px;
   border-radius: 0.25rem;
   text-align: center;
   font-size: 1.5rem;
   transition: 0.25s background-color ease-in-out;
   cursor: pointer;
-  max-width: 926px;
+  max-width: 46%;
   margin-bottom: 10px;
 }
 
