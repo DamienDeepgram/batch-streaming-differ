@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Diff of Multiple String Pairs</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h2>Compare Batch and Streaming Outputs</h2>
+    <div id="loading" style="display: none;">
+        <div class="loading_text">Loading Transcript Please Wait...</div>
+    </div>
+    <div class="input-container">
+      <textarea id="request_ids" rows="5" placeholder="Enter Deepgram Request IDs"></textarea><br>
+      <h3>or</h3>
+      <div class="dropzone green" id="dropzone">                
+        Click here to select files to upload.
+        <input type="file" id="fileinput" name="files" class="dropzone-input" />
+      </div>
+      <textarea id="params" rows="5" placeholder="Enter Deepgram API Params">model=nova-2&smart_format=true</textarea><br>
+      <button onclick="process()">Process</button>
+    </div>
+    <div class="input-container" style="display: none;">
+        <textarea id="string1" rows="5" placeholder="Enter first string here..."></textarea>
+        <textarea id="string2" rows="5" placeholder="Enter second string here..."></textarea><br>
+        <button onclick="addComparison()">Add String Pair</button>
+    </div>
+    <table class="table-container" id="comparisonContainer">
+        <thead>
+            <tr>
+                <th>Batch</th>
+                <th>Streaming</th>
+                <th>Diff</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="js/dropzone.js"></script>
+    <script src="js/diff_match_patch.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

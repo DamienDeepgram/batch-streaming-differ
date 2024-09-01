@@ -1,0 +1,118 @@
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+h2 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.input-container {
+  margin-bottom: 20px;
+}
+textarea {
+  width: 46%;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border: 1px solid #333333;
+  padding: 10px;
+  margin-right: 2%;
+  resize: none;
+  font-family: monospace;
+  font-size: 16px;
+}
+.input-container button {
+  background-color: #6200ea;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.input-container button:hover {
+  background-color: #3700b3;
+}
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table-container tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+.table-container tr:nth-child(odd) {
+  background-color: #1e1e1e;
+}
+.table-container th, .table-container td {
+  padding: 15px;
+  border: 1px solid #333333;
+  text-align: left;
+  vertical-align: top;
+  font-family: monospace;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.diff {
+  white-space: pre-wrap;
+  font-family: monospace;
+  line-height: 1.5;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 18px;
+}
+.diff ins {
+  background-color: #4caf50 !important;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+}
+.diff del {
+  background-color: #f44336 !important;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.green {
+  color: #38edac;
+}
+
+.dropzone {
+  border: 0.2rem dashed #1e2c3c;
+  padding: 2rem;
+  border-radius: 0.25rem;
+  text-align: center;
+  font-size: 1.5rem;
+  transition: 0.25s background-color ease-in-out;
+  cursor: pointer;
+  max-width: 926px;
+  margin-bottom: 10px;
+}
+
+.dropzone-dragging, .dropzone:hover {
+    background-color: lighten(#1e2c3c, 28%);
+}
+
+.dropzone-input {
+    display: none;
+}
+
+#loading{
+  background-color: #000000AA;
+  color: #38edac;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  text-align: center;
+  margin: auto;
+}
+
+.loading_text{
+  margin-top: 140px;
+}
