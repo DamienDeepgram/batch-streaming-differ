@@ -16,7 +16,7 @@
       <h3>or</h3>
       <div class="dropzone green" id="dropzone">                
         Click here to select files to upload.
-        <input type="file" id="fileinput" name="files" class="dropzone-input" />
+        <input type="file" id="fileinput" name="files" class="dropzone-input" multiple />
       </div>
       <textarea id="params" rows="5" placeholder="Enter Deepgram API Params">model=nova-2&smart_format=true</textarea><br>
       <button onclick="process()">Process</button>
@@ -29,6 +29,8 @@
     <table class="table-container" id="comparisonContainer">
         <thead>
             <tr>
+                <th>Filename</th>
+                <th>Audio</th>
                 <th>Batch</th>
                 <th>Streaming</th>
                 <th>Diff</th>
