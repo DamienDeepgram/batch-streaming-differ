@@ -38,7 +38,7 @@ const app = express();
 app.use(cors())
 app.use(express.static("public/"));
 
-app.post('/upload_files', upload.any('file'), async (req, res) => {
+app.post('/upload_files', upload.any(), async (req, res) => {
   console.log('/upload_files', new Date().toLocaleString());
   
   console.log(req.body);
@@ -49,29 +49,44 @@ app.post('/upload_files', upload.any('file'), async (req, res) => {
   let streaming_options = {...batch_options, chunker: "streaming", parser: "streaming"};
   
   try {
-    const batch_audioSource = {
-        stream: fs.createReadStream(req.files[0].path),
-        mimetype: "wav",
-    };
-    const batch_response = await deepgram.transcription.preRecorded(batch_audioSource, batch_options);
+    // Use map to process each file in parallel
+    const results = await Promise.all(req.files.map(async (file) => {
+      console.log('file', file, file.originalname);
+      const batch_audioSource = {
+          stream: fs.createReadStream(file.path),
+          mimetype: "wav",
+      };
+      const batch_response = await deepgram.transcription.preRecorded(batch_audioSource, batch_options);
 
-    const streaming_audioSource = {
-      stream: fs.createReadStream(req.files[0].path),
-      mimetype: "wav",
-  };
-    const streaming_response = await deepgram.transcription.preRecorded(streaming_audioSource, streaming_options);
-    
-    setTimeout(()=>{fs.unlink(req.files[0].path, (evt)=>{console.log('Unlinked file ')})}, 1)
+      const streaming_audioSource = {
+        stream: fs.createReadStream(file.path),
+        mimetype: "wav",
+      };
+      const streaming_response = await deepgram.transcription.preRecorded(streaming_audioSource, streaming_options);
+
+      // Unlink file asynchronously
+      setTimeout(() => {
+        fs.unlink(file.path, (evt) => { console.log('Unlinked file ', file.path); });
+      }, 1);
+      batch_response.filename = file.originalname;
+      streaming_response.filename = file.originalname;
+      
+      return {
+        batch_transcript: batch_response,
+        streaming_transcript: streaming_response
+      };
+    }));
+
     res.send({ 
       message: 'Successfully uploaded files', 
-      batch_transcript: batch_response, 
-      streaming_transcript: streaming_response 
-    })
+      results 
+    });
   } catch(err){
     console.log(err);
-    res.status(500).send({ err: 'Unable to process audio file' })
+    res.status(500).send({ err: 'Unable to process audio files' });
   }
-})
+});
+
 
 console.log('Starting Server on Port 3000');
 const httpServer = createServer(app);
