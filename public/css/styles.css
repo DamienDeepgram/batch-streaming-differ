@@ -55,25 +55,34 @@ textarea {
   font-size: 18px;
   line-height: 1.5;
 }
-.diff {
+.diff-match {
   white-space: pre-wrap;
   font-family: monospace;
   line-height: 1.5;
   color: #ffffff;
-  padding: 10px;
   font-size: 18px;
 }
-.diff ins {
-  background-color: #4caf50 !important;
-  color: #000000;
+.diff-ins {
+  background-color: #3f93427a !important;
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
 }
-.diff del {
-  background-color: #f44336 !important;
-  color: #000000;
+.diff-del {
+  background-color: #9e322a94 !important;
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
+}
+
+.diff-match:hover {
+  border: 1px solid #fff;
+}
+
+.diff-ins:hover {
+  border: 1px solid #fff;
+}
+
+.diff-del:hover {
+  border: 1px solid #fff;
 }
 
 .green {
@@ -116,3 +125,33 @@ textarea {
 .loading_text{
   margin-top: 140px;
 }
+
+.highlight {
+  background-color: #0062ffbf !important;
+  border: 2px solid #f900ff;
+}
+
+.highlight-diff {
+  background-color: #575757cc;
+  border: 1px solid #ddddddba;
+}
+
+.missing-text {
+  background-color: #0062ffbf; /* Use the same blue as highlight */
+  color: white;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-style: italic;
+  border: 1px solid #DDD;
+}
+
+.missing-text-placeholder {
+  background-color: #575757cc; /* Matches .highlight-diff */
+  display: inline-block;
+  width: 10px; /* Adjust this width to represent the missing text visually */
+  height: 1em; /* Adjust the height to match the font size */
+  vertical-align: middle;
+  border-radius: 2px; /* Optional: to give the placeholder a rounded appearance */
+}
+
+
