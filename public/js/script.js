@@ -14,7 +14,7 @@ function process() {
   let params = document.getElementById('params').value;
   formData.append('params', params);
 
-  let url = 'https://batch-streaming-differ.glitch.me//upload_files';
+  let url = 'http://localhost:3000/upload_files';
   fetch(url, {
     method: 'post',
     body: formData,
