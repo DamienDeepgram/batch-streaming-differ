@@ -14,7 +14,7 @@ function process() {
   let params = document.getElementById('params').value;
   formData.append('params', params);
 
-  let url = 'http://localhost:3000/upload_files';
+  let url = 'https://batch-streaming-differ.glitch.me//upload_files';
   fetch(url, {
     method: 'post',
     body: formData,
@@ -22,11 +22,15 @@ function process() {
   .then(response => response.json())
   .then((res) => {
     res.results.forEach((result, index) => {
-      let batch_channels = result.batch_transcript.results.channels;
-      let batch_transcript = batch_channels[0].alternatives[0];
+      let batch_transcript = {transcript: '<Error transcribing>', words: []};
+      let streaming_transcript = {transcript: '<Error transcribing>', words: []};
+      if(result.batch_transcript.results){
+        let batch_channels = result.batch_transcript.results.channels;
+        batch_transcript = batch_channels[0].alternatives[0];
 
-      let streaming_channels = result.streaming_transcript.results.channels;
-      let streaming_transcript = streaming_channels[0].alternatives[0];
+        let streaming_channels = result.streaming_transcript.results.channels;
+        streaming_transcript = streaming_channels[0].alternatives[0];
+      }
 
       const file = input.files[index];
       const audioUrl = URL.createObjectURL(file);
@@ -47,10 +51,10 @@ function addComparison(filename = '', batchTranscript = {}, streamingTranscript 
 
   const row = document.createElement('tr');
 
-  const filenameCell = document.createElement('td');
+  const filenameCell = document.createElement('div');
   filenameCell.textContent = filename;
 
-  const audioCell = document.createElement('td');
+  const audioCell = document.createElement('div');
   let audioElement = null;
   if (audioUrl) {
     audioElement = document.createElement('audio');
@@ -135,8 +139,10 @@ function addComparison(filename = '', batchTranscript = {}, streamingTranscript 
     });
   });
 
-  row.appendChild(filenameCell);
-  row.appendChild(audioCell);
+  let filename_div = document.createElement('td');
+  filename_div.appendChild(filenameCell);
+  filename_div.appendChild(audioCell);
+  row.appendChild(filename_div);
   row.appendChild(string1Cell);
   row.appendChild(string2Cell);
   row.appendChild(diffCell);
