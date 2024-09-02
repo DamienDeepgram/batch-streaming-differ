@@ -52,24 +52,31 @@ app.post('/upload_files', upload.any(), async (req, res) => {
     // Use map to process each file in parallel
     const results = await Promise.all(req.files.map(async (file) => {
       console.log('file', file, file.originalname);
-      const batch_audioSource = {
+      let batch_response = {};
+      let streaming_response = {};
+      try{
+        const batch_audioSource = {
+            stream: fs.createReadStream(file.path),
+            mimetype: "wav",
+        };
+        batch_response = await deepgram.transcription.preRecorded(batch_audioSource, batch_options);
+
+        const streaming_audioSource = {
           stream: fs.createReadStream(file.path),
           mimetype: "wav",
-      };
-      const batch_response = await deepgram.transcription.preRecorded(batch_audioSource, batch_options);
-
-      const streaming_audioSource = {
-        stream: fs.createReadStream(file.path),
-        mimetype: "wav",
-      };
-      const streaming_response = await deepgram.transcription.preRecorded(streaming_audioSource, streaming_options);
-
-      // Unlink file asynchronously
-      setTimeout(() => {
-        fs.unlink(file.path, (evt) => { console.log('Unlinked file ', file.path); });
-      }, 1);
-      batch_response.filename = file.originalname;
-      streaming_response.filename = file.originalname;
+        };
+        streaming_response = await deepgram.transcription.preRecorded(streaming_audioSource, streaming_options);
+      
+      
+        // Unlink file asynchronously
+        setTimeout(() => {
+          fs.unlink(file.path, (evt) => { console.log('Unlinked file ', file.path); });
+        }, 1);
+        batch_response.filename = file.originalname;
+        streaming_response.filename = file.originalname;
+      }catch(err){
+        console.log('err:', err)
+      }
       
       return {
         batch_transcript: batch_response,
